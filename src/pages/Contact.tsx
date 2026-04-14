@@ -40,7 +40,7 @@ const Contact = () => {
               </div>
             </div>
             <a 
-              href="mailto:your-email@example.com?subject=Job Opportunity"
+              href="mailto:ratthika.dev@gmail.com?subject=Job Opportunity"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
             >
               <Mail className="w-4 h-4" />
