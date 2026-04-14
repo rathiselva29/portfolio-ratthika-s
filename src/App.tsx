@@ -178,7 +178,7 @@ function App() {
         <Suspense fallback={<PageLoader />}>
           <AnimatePresence mode="wait">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/contact" element={<Contact />} />
             </Routes>
