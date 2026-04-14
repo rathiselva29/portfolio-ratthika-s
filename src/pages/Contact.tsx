@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const Contact = () => {
   return (
