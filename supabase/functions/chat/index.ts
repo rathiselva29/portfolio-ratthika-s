@@ -1,4 +1,8 @@
-import { corsHeaders } from "@supabase/supabase-js/cors";
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
+};
 
 const SYSTEM_PROMPT = `You are a helpful AI assistant for Ratthika's portfolio website. You answer questions about her skills, projects, education, and experience. Keep responses concise and friendly.
 
