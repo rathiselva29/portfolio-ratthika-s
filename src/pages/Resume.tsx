@@ -72,9 +72,6 @@ const Resume = () => (
           <Download size={20} /> Download Resume (PDF)
         </motion.a>
 
-        <p className="text-xs text-muted-foreground">
-          Tip: place your resume file at <code>public/resume.pdf</code> to enable download.
-        </p>
       </motion.div>
     </div>
   </section>
