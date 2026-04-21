@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Mail, Code2, Palette, GraduationCap, Briefcase } from "lucide-react";
+import profilePhoto from "@/assets/ratthika-photo.jpg";
 
 const stats = [
   { label: "Projects", value: "5+", icon: Code2 },
@@ -20,7 +21,7 @@ const Home = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-primary font-mono text-sm mb-4">Hi, I'm Ratthika</p>
+            <p className="text-primary font-mono text-sm mb-4">Welcome to my portfolio</p>
             <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
               I'am <span className="gradient-text">Ratthika S</span>
             </h1>
@@ -62,9 +63,11 @@ const Home = () => {
                   boxShadow: "0 0 60px hsl(var(--glow-primary) / 0.3)",
                 }}
               >
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-secondary/20 text-7xl font-bold gradient-text">
-                  RS
-                </div>
+                <img
+                  src={profilePhoto}
+                  alt="Ratthika S"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </motion.div>

@@ -25,7 +25,6 @@ const Layout = () => {
         <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
           <NavLink to="/" className="font-bold text-lg">
             <span className="gradient-text">Ratthika</span>
-            <span className="text-foreground">.dev</span>
           </NavLink>
           <div className="flex items-center gap-1 overflow-x-auto">
             {navItems.map((item) => (
