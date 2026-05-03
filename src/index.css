@@ -139,16 +139,19 @@
     width: 600px; height: 600px;
     background: hsl(var(--glow-primary));
     top: -200px; right: -200px;
+    animation: blobFloat1 18s ease-in-out infinite;
   }
   .gradient-blob-2 {
     width: 500px; height: 500px;
     background: hsl(var(--glow-secondary));
     bottom: -200px; left: -200px;
+    animation: blobFloat2 22s ease-in-out infinite;
   }
   .gradient-blob-3 {
     width: 400px; height: 400px;
     background: linear-gradient(135deg, hsl(var(--glow-primary)), hsl(var(--glow-secondary)));
     top: 40%; left: 40%;
+    animation: blobFloat3 26s ease-in-out infinite;
   }
 
   .section-title {
