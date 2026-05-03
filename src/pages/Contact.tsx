@@ -1,103 +1,88 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, Github, Linkedin, Instagram, Briefcase, MapPin } from "lucide-react";
+import { Mail, MapPin, Phone, Sparkles } from "lucide-react";
 
-const contacts = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: "ratthikaratthika55@gmail.com",
-    href: "mailto:ratthikaratthika55@gmail.com",
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "+91 73977 32494",
-    href: "tel:+917397732494",
-  },
-];
+const Contact = () => {
+  return (
+    <div className="min-h-screen pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl font-bold text-foreground mb-4">Get In Touch</h1>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            If you are a recruiter or company and interested in my work, feel free to contact me. 
+            I am actively looking for job and internship opportunities.
+          </p>
+        </motion.div>
 
-const socials = [
-  { icon: Github, label: "GitHub", href: "https://github.com/rathiselva29" },
-  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/ratthika-s29/" },
-  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/rathii__selva" },
-  { icon: Briefcase, label: "Naukri", href: "https://www.naukri.com/mnjuser/homepage" },
-];
-
-const Contact = () => (
-  <section className="min-h-screen py-24 px-4">
-    <div className="container mx-auto max-w-4xl">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="flex flex-col items-center mb-16"
-      >
-        <h1 className="section-title text-center">
-          Get In <span className="gradient-text">Touch</span>
-        </h1>
-        <p className="section-subtitle text-center">
-          If you are a recruiter or company and interested in my work, feel free to contact
-          me. I am actively looking for job and internship opportunities.
-        </p>
-      </motion.div>
-
-      <div className="grid md:grid-cols-2 gap-4 mb-10">
-        {contacts.map((c, i) => (
-          <motion.a
-            key={c.label}
-            href={c.href}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="glass-card-hover p-6 flex items-center gap-4"
-          >
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{
-                background:
-                  "linear-gradient(135deg, hsl(190 90% 50% / 0.15), hsl(270 60% 55% / 0.15))",
-                border: "1px solid hsl(190 90% 50% / 0.3)",
-              }}
-            >
-              <c.icon size={20} className="text-primary" />
+        {/* Hire Me CTA */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="bg-gradient-to-br from-primary/10 via-primary/5 to-background rounded-2xl p-8 mb-12 border border-primary/20"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-foreground">
+                  Looking for a passionate developer or designer?
+                </h2>
+                <p className="text-muted-foreground mt-1">
+                  I am actively seeking job opportunities. Let's work together!
+                </p>
+              </div>
             </div>
-            <div className="min-w-0">
-              <div className="text-xs text-muted-foreground">{c.label}</div>
-              <div className="font-medium truncate">{c.value}</div>
-            </div>
-          </motion.a>
-        ))}
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="glass-card-hover p-8 text-center"
-      >
-        <h2 className="text-xl font-bold mb-2">Connect With Me</h2>
-        <p className="text-muted-foreground text-sm mb-6 flex items-center justify-center gap-2">
-          <MapPin size={14} /> Available for remote and on-site opportunities
-        </p>
-        <div className="flex justify-center flex-wrap gap-4">
-          {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={s.label}
-              className="social-icon"
+            <a 
+              href="mailto:ratthika.dev@gmail.com?subject=Job Opportunity"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
             >
-              <s.icon size={20} />
+              <Mail className="w-4 h-4" />
+              Hire Me
             </a>
-          ))}
-        </div>
-      </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Contact Info */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="grid md:grid-cols-3 gap-6"
+        >
+          <div className="bg-card rounded-xl p-6 border border-border text-center">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <Mail className="w-5 h-5 text-primary" />
+            </div>
+            <h3 className="font-semibold text-foreground mb-1">Email</h3>
+            <p className="text-sm text-muted-foreground">ratthika.dev@gmail.com</p>
+          </div>
+
+          <div className="bg-card rounded-xl p-6 border border-border text-center">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <Phone className="w-5 h-5 text-primary" />
+            </div>
+            <h3 className="font-semibold text-foreground mb-1">Phone</h3>
+            <p className="text-sm text-muted-foreground">+91 98765 43210</p>
+          </div>
+
+          <div className="bg-card rounded-xl p-6 border border-border text-center">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <MapPin className="w-5 h-5 text-primary" />
+            </div>
+            <h3 className="font-semibold text-foreground mb-1">Location</h3>
+            <p className="text-sm text-muted-foreground">Tamil Nadu, India</p>
+          </div>
+        </motion.div>
+      </div>
     </div>
-  </section>
-);
+  );
+};
 
 export default Contact;

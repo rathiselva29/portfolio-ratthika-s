@@ -1,133 +1,117 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, FolderOpen } from "lucide-react";
 
-interface Project {
-  title: string;
-  description: string;
-  tech: string[];
-  image: string;
-  live: string;
-  github?: string;
-}
-
-const projects: Project[] = [
+const projects = [
   {
-    title: "Artika Creations",
-    description:
-      "Artist website to showcase paintings and creative works, demonstrating my web development and design skills.",
+    title: "Habit Tracking",
+    description: "A personal habit tracking application built with vanilla JavaScript. Features include daily habit logging, progress visualization, and local storage persistence.",
     tech: ["HTML", "CSS", "JavaScript"],
-    image:
-      "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=500&fit=crop",
-    live: "https://artika-creations-rathiselva29s-projects.vercel.app?_vercel_share=VO0lkVXyZ2xwRhVZUGhKveg3Zu4bo4zc",
-  },
-  {
-    title: "Habit Tracking App",
-    description:
-      "A personal habit tracking application to help users build and maintain daily habits, with progress tracking and streaks.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    image:
-      "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&h=500&fit=crop",
     live: "https://rathiselva29.github.io/Habit-Tracking/",
     github: "https://github.com/rathiselva29/Habit-Tracking",
+    featured: true,
   },
   {
-    title: "Daily Tracking Website",
-    description:
-      "A handmade-design daily tracking website with a clean, custom layout to log and review everyday activities.",
+    title: "Artika Gallery",
+    description: "A responsive art gallery showcasing creative works with smooth animations and modern design principles.",
     tech: ["HTML", "CSS", "JavaScript"],
-    image:
-      "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=500&fit=crop",
-    live: "https://rathiselva29.github.io/DailyTracking/",
-    github: "https://github.com/rathiselva29/DailyTracking",
+    live: "https://artikagallery.netlify.app/",
+    github: null,
+    featured: true,
   },
   {
-    title: "VS Art Project",
-    description:
-      "A visually-rich creative art project showcasing layout design and front-end styling with handcrafted visuals.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    image:
-      "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&h=500&fit=crop",
-    live: "https://rathiselva29.github.io/ratthika_vs_art_project/",
-    github: "https://github.com/rathiselva29/ratthika_vs_art_project",
+    title: "Responsive Website - Codebind Tech",
+    description: "A fully responsive company website built during internship at Codebind Technologies. Features modern UI components and cross-browser compatibility.",
+    tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
+    live: null,
+    github: null,
+    featured: false,
   },
 ];
 
-const Projects = () => (
-  <section className="min-h-screen py-24 px-4">
-    <div className="container mx-auto max-w-6xl">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="flex flex-col items-center mb-16"
-      >
-        <h1 className="section-title text-center">
-          My <span className="gradient-text">Projects</span>
-        </h1>
-        <p className="section-subtitle text-center">
-          A collection of projects that showcase my skills and passion for development.
-        </p>
-      </motion.div>
+const Projects = () => {
+  return (
+    <div className="min-h-screen pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl font-bold text-foreground mb-4">My Projects</h1>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            A collection of my work showcasing frontend development and design skills
+          </p>
+        </motion.div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {projects.map((project, i) => (
-          <motion.div
-            key={project.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="glass-card-hover overflow-hidden h-full flex flex-col"
-          >
-            <div className="relative overflow-hidden">
-              <img
-                src={project.image}
-                alt={project.title}
-                loading="lazy"
-                className="w-full h-48 object-cover transition-transform duration-500 hover:scale-110"
-              />
-            </div>
-            <div className="p-6 flex flex-col flex-1">
-              <h3 className="text-lg font-bold mb-2">{project.title}</h3>
-              <p className="text-muted-foreground text-sm mb-4 flex-1">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs px-2.5 py-1 rounded-full border border-primary/30 text-primary"
-                  >
-                    {t}
-                  </span>
-                ))}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              className="group bg-card rounded-xl border border-border overflow-hidden hover:shadow-lg transition-shadow"
+            >
+              <div className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <FolderOpen className="w-5 h-5 text-primary" />
+                  {project.featured && (
+                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">
+                      Featured
+                    </span>
+                  )}
+                </div>
+                
+                <h3 className="text-xl font-semibold text-foreground mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                  {project.description}
+                </p>
+                
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tech.map((t) => (
+                    <span 
+                      key={t} 
+                      className="text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex gap-3">
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Live Demo
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      <Github className="w-4 h-4" />
+                      Code
+                    </a>
+                  )}
+                </div>
               </div>
-              <div className="flex gap-3 flex-wrap">
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="glow-btn text-sm px-4 py-2 inline-flex items-center gap-1.5"
-                >
-                  <ExternalLink size={14} /> View Live
-                </a>
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="glow-btn-outline text-sm px-4 py-2 inline-flex items-center gap-1.5"
-                  >
-                    <Github size={14} /> GitHub
-                  </a>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
-  </section>
-);
+  );
+};
 
 export default Projects;
