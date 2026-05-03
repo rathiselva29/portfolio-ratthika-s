@@ -15,10 +15,10 @@ const Home = () => {
     <>
       {/* Hero */}
       <section className="min-h-[calc(100vh-4rem)] flex items-center px-4 py-20">
-        <div className="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto max-w-4xl text-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
             <p className="text-primary font-mono text-sm mb-4">Welcome to my portfolio</p>
@@ -28,11 +28,11 @@ const Home = () => {
             <p className="text-xl md:text-2xl text-muted-foreground mb-4 font-medium">
               Creative Designer | Frontend Developer
             </p>
-            <p className="text-base md:text-lg text-muted-foreground mb-10 max-w-xl">
+            <p className="text-base md:text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
               I am a Computer Science and Engineering student passionate about building
               responsive websites and creating visually appealing designs.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 justify-center">
               <Link to="/projects" className="glow-btn inline-flex items-center gap-2">
                 View Projects <ArrowRight size={18} />
               </Link>
@@ -41,60 +41,62 @@ const Home = () => {
               </Link>
             </div>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative flex justify-center"
-          >
-            <div className="relative w-72 h-72 md:w-96 md:h-96">
-              <div
-                className="absolute inset-0 rounded-full blur-3xl opacity-40"
-                style={{
-                  background:
-                    "linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)))",
-                }}
-              />
-              <div
-                className="relative w-full h-full rounded-full border-2 overflow-hidden"
-                style={{
-                  borderColor: "hsl(var(--glow-primary) / 0.3)",
-                  boxShadow: "0 0 60px hsl(var(--glow-primary) / 0.3)",
-                }}
-              >
-                <img
-                  src={profilePhoto}
-                  alt="Ratthika S"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
 
       {/* About */}
       <section className="py-20 px-4">
-        <div className="container mx-auto max-w-5xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="section-title">
-              About <span className="gradient-text">Me</span>
-            </h2>
-            <p className="section-subtitle mx-auto">
-              Ratthika is a dedicated Computer Science and Engineering student with strong
-              interest in frontend development and creative design. Skilled in HTML, CSS,
-              MySQL, Git, and GitHub. Experienced in Canva-based designing including logo
-              creation, layout design, banner and poster design. Currently seeking internship
-              opportunities to gain practical industry experience.
-            </p>
-          </motion.div>
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="section-title">
+                About <span className="gradient-text">Me</span>
+              </h2>
+              <p className="section-subtitle">
+                Ratthika is a dedicated Computer Science and Engineering student with strong
+                interest in frontend development and creative design. Skilled in HTML, CSS,
+                MySQL, Git, and GitHub. Experienced in Canva-based designing including logo
+                creation, layout design, banner and poster design. Currently seeking internship
+                opportunities to gain practical industry experience.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="relative flex justify-center lg:justify-end order-first lg:order-last"
+            >
+              <div className="relative w-64 h-64 md:w-80 md:h-80">
+                <div
+                  className="absolute inset-0 rounded-full blur-3xl opacity-40"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)))",
+                  }}
+                />
+                <div
+                  className="relative w-full h-full rounded-full border-2 overflow-hidden"
+                  style={{
+                    borderColor: "hsl(var(--glow-primary) / 0.3)",
+                    boxShadow: "0 0 60px hsl(var(--glow-primary) / 0.3)",
+                  }}
+                >
+                  <img
+                    src={profilePhoto}
+                    alt="Ratthika S"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, i) => (
