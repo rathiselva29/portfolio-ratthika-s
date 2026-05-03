@@ -1,9 +1,5 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
-import artikaImg from "@/assets/project-artika.png";
-import habitImg from "@/assets/project-habit.png";
-import dailyImg from "@/assets/project-daily.jpg";
-import vsArtImg from "@/assets/project-vsart.png";
 
 interface Project {
   title: string;
@@ -20,7 +16,8 @@ const projects: Project[] = [
     description:
       "Artist website to showcase paintings and creative works, demonstrating my web development and design skills.",
     tech: ["HTML", "CSS", "JavaScript"],
-    image: artikaImg,
+    image:
+      "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=500&fit=crop",
     live: "https://artika-creations-rathiselva29s-projects.vercel.app?_vercel_share=VO0lkVXyZ2xwRhVZUGhKveg3Zu4bo4zc",
   },
   {
@@ -28,7 +25,8 @@ const projects: Project[] = [
     description:
       "A personal habit tracking application to help users build and maintain daily habits, with progress tracking and streaks.",
     tech: ["HTML", "CSS", "JavaScript"],
-    image: habitImg,
+    image:
+      "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&h=500&fit=crop",
     live: "https://rathiselva29.github.io/Habit-Tracking/",
     github: "https://github.com/rathiselva29/Habit-Tracking",
   },
@@ -37,7 +35,8 @@ const projects: Project[] = [
     description:
       "A handmade-design daily tracking website with a clean, custom layout to log and review everyday activities.",
     tech: ["HTML", "CSS", "JavaScript"],
-    image: dailyImg,
+    image:
+      "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=500&fit=crop",
     live: "https://rathiselva29.github.io/DailyTracking/",
     github: "https://github.com/rathiselva29/DailyTracking",
   },
@@ -46,7 +45,8 @@ const projects: Project[] = [
     description:
       "A visually-rich creative art project showcasing layout design and front-end styling with handcrafted visuals.",
     tech: ["HTML", "CSS", "JavaScript"],
-    image: vsArtImg,
+    image:
+      "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&h=500&fit=crop",
     live: "https://rathiselva29.github.io/ratthika_vs_art_project/",
     github: "https://github.com/rathiselva29/ratthika_vs_art_project",
   },
