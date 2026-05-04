@@ -22,6 +22,9 @@ import projectArtika from "@/assets/project-artika.png";
 import projectHabit from "@/assets/project-habit.png";
 import projectDaily from "@/assets/project-daily.jpg";
 import projectVsArt from "@/assets/project-vs-art.png";
+import bannerVsArt from "@/assets/banner-vs-art.png";
+import appHabitFlow from "@/assets/app-habit-flow.png";
+import logoArtika from "@/assets/logo-artika.png";
 
 const AIChatbot = lazy(() => import("./components/AIChatbot"));
 
@@ -34,7 +37,16 @@ const GITHUB_URL = "https://github.com/rathiselva29";
 const LINKEDIN_URL = "https://www.linkedin.com/in/ratthika-s29/";
 const INSTAGRAM_URL = "https://www.instagram.com/rathii__selva";
 
-const projects = [
+type ProjectCategory = "Websites" | "Application" | "Banner" | "Logo";
+
+const projects: {
+  title: string;
+  description: string;
+  image: string;
+  live?: string;
+  tech: string[];
+  category: ProjectCategory;
+}[] = [
   {
     title: "Artika Creations",
     description:
@@ -42,14 +54,16 @@ const projects = [
     image: projectArtika,
     live: "https://artika-creations-rathiselva29s-projects.vercel.app?_vercel_share=VO0lkVXyZ2xwRhVZUGhKveg3Zu4bo4zc",
     tech: ["HTML", "CSS", "JavaScript"],
+    category: "Websites",
   },
   {
-    title: "Habit Tracking App",
+    title: "Habit Tracking",
     description:
       "A daily habit tracker that helps build better routines with progress tracking and clean visuals.",
     image: projectHabit,
     live: "https://rathiselva29.github.io/Habit-Tracking/",
     tech: ["HTML", "CSS", "JavaScript"],
+    category: "Websites",
   },
   {
     title: "Daily Tracking Website",
@@ -58,6 +72,7 @@ const projects = [
     image: projectDaily,
     live: "https://rathiselva29.github.io/DailyTracking/",
     tech: ["HTML", "CSS", "JavaScript"],
+    category: "Websites",
   },
   {
     title: "VS Art Project",
@@ -66,8 +81,37 @@ const projects = [
     image: projectVsArt,
     live: "https://rathiselva29.github.io/ratthika_vs_art_project/",
     tech: ["HTML", "CSS", "JavaScript"],
+    category: "Websites",
+  },
+  {
+    title: "Habit Flow App",
+    description:
+      "A mobile-friendly habit tracking application designed for daily use. Build better habits with an intuitive interface, streak tracking, and a smooth experience optimized for on-the-go productivity.",
+    image: appHabitFlow,
+    live: "https://rathiselva29.github.io/Habit-Tracking/",
+    tech: ["Mobile-Friendly", "PWA", "JavaScript"],
+    category: "Application",
+  },
+  {
+    title: "VS Art — Banner Design",
+    description:
+      "Bold, playful promotional banner created for the VS Art Project — vibrant colors and expressive typography.",
+    image: bannerVsArt,
+    tech: ["Canva", "Banner Design"],
+    category: "Banner",
+  },
+  {
+    title: "Artika Creations — Logo",
+    description:
+      "Elegant brand logo designed for Artika Creations — soft palette with a refined script identity.",
+    image: logoArtika,
+    tech: ["Logo Design", "Branding"],
+    category: "Logo",
   },
 ];
+
+const PROJECT_CATEGORIES = ["All", "Websites", "Application", "Banner", "Logo"] as const;
+type ProjectFilter = (typeof PROJECT_CATEGORIES)[number];
 
 const techSkills = [
   { name: "HTML", value: 95 },
