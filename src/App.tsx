@@ -16,7 +16,7 @@ import {
   ArrowDown,
   Heart,
 } from "lucide-react";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState } from "react";
 import profilePhoto from "@/assets/ratthika-photo.jpg";
 import projectArtika from "@/assets/project-artika.png";
 import projectHabit from "@/assets/project-habit.png";
