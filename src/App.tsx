@@ -16,12 +16,15 @@ import {
   ArrowDown,
   Heart,
 } from "lucide-react";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState } from "react";
 import profilePhoto from "@/assets/ratthika-photo.jpg";
 import projectArtika from "@/assets/project-artika.png";
 import projectHabit from "@/assets/project-habit.png";
 import projectDaily from "@/assets/project-daily.jpg";
 import projectVsArt from "@/assets/project-vs-art.png";
+import bannerVsArt from "@/assets/banner-vs-art.png";
+import appHabitFlow from "@/assets/app-habit-flow.png";
+import logoArtika from "@/assets/logo-artika.png";
 
 const AIChatbot = lazy(() => import("./components/AIChatbot"));
 
@@ -34,7 +37,16 @@ const GITHUB_URL = "https://github.com/rathiselva29";
 const LINKEDIN_URL = "https://www.linkedin.com/in/ratthika-s29/";
 const INSTAGRAM_URL = "https://www.instagram.com/rathii__selva";
 
-const projects = [
+type ProjectCategory = "Websites" | "Application" | "Banner" | "Logo";
+
+const projects: {
+  title: string;
+  description: string;
+  image: string;
+  live?: string;
+  tech: string[];
+  category: ProjectCategory;
+}[] = [
   {
     title: "Artika Creations",
     description:
@@ -42,14 +54,16 @@ const projects = [
     image: projectArtika,
     live: "https://artika-creations-rathiselva29s-projects.vercel.app?_vercel_share=VO0lkVXyZ2xwRhVZUGhKveg3Zu4bo4zc",
     tech: ["HTML", "CSS", "JavaScript"],
+    category: "Websites",
   },
   {
-    title: "Habit Tracking App",
+    title: "Habit Tracking",
     description:
       "A daily habit tracker that helps build better routines with progress tracking and clean visuals.",
     image: projectHabit,
     live: "https://rathiselva29.github.io/Habit-Tracking/",
     tech: ["HTML", "CSS", "JavaScript"],
+    category: "Websites",
   },
   {
     title: "Daily Tracking Website",
@@ -58,6 +72,7 @@ const projects = [
     image: projectDaily,
     live: "https://rathiselva29.github.io/DailyTracking/",
     tech: ["HTML", "CSS", "JavaScript"],
+    category: "Websites",
   },
   {
     title: "VS Art Project",
@@ -66,8 +81,37 @@ const projects = [
     image: projectVsArt,
     live: "https://rathiselva29.github.io/ratthika_vs_art_project/",
     tech: ["HTML", "CSS", "JavaScript"],
+    category: "Websites",
+  },
+  {
+    title: "Habit Flow App",
+    description:
+      "A mobile-friendly habit tracking application designed for daily use. Build better habits with an intuitive interface, streak tracking, and a smooth experience optimized for on-the-go productivity.",
+    image: appHabitFlow,
+    live: "https://rathiselva29.github.io/Habit-Tracking/",
+    tech: ["Mobile-Friendly", "PWA", "JavaScript"],
+    category: "Application",
+  },
+  {
+    title: "VS Art — Banner Design",
+    description:
+      "Bold, playful promotional banner created for the VS Art Project — vibrant colors and expressive typography.",
+    image: bannerVsArt,
+    tech: ["Canva", "Banner Design"],
+    category: "Banner",
+  },
+  {
+    title: "Artika Creations — Logo",
+    description:
+      "Elegant brand logo designed for Artika Creations — soft palette with a refined script identity.",
+    image: logoArtika,
+    tech: ["Logo Design", "Branding"],
+    category: "Logo",
   },
 ];
+
+const PROJECT_CATEGORIES = ["All", "Websites", "Application", "Banner", "Logo"] as const;
+type ProjectFilter = (typeof PROJECT_CATEGORIES)[number];
 
 const techSkills = [
   { name: "HTML", value: 95 },
@@ -264,73 +308,104 @@ const About = () => (
   </section>
 );
 
-const Projects = () => (
-  <section id="projects" className="py-24 px-4 sm:px-6 lg:px-8 bg-muted/30">
-    <div className="max-w-6xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-14"
-      >
-        <h2 className="text-4xl lg:text-5xl font-extrabold mb-4">
-          My <span className="text-gradient">Projects</span>
-        </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-          A collection of projects that showcase my skills and passion for
-          development.
-        </p>
-      </motion.div>
+const Projects = () => {
+  const [filter, setFilter] = useState<ProjectFilter>("All");
+  const filtered = filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {projects.map((p, i) => (
-          <motion.article
-            key={p.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.5 }}
-            className="group glass rounded-3xl overflow-hidden hover:shadow-glow transition-all hover:-translate-y-1"
-          >
-            <div className="aspect-[16/10] overflow-hidden bg-muted">
-              <img
-                src={p.image}
-                alt={`${p.title} project preview`}
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-bold mb-2">{p.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                {p.description}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-5">
-                {p.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <a
-                href={p.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+  return (
+    <section id="projects" className="py-24 px-4 sm:px-6 lg:px-8 bg-muted/30">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10"
+        >
+          <h2 className="text-4xl lg:text-5xl font-extrabold mb-4">
+            My <span className="text-gradient">Projects</span>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            A collection of websites, applications, banners, and logos that showcase my skills.
+          </p>
+        </motion.div>
+
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
+          {PROJECT_CATEGORIES.map((cat) => {
+            const active = filter === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-4 sm:px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+                  active
+                    ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                    : "glass text-muted-foreground hover:text-foreground"
+                }`}
               >
-                View Live <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
-          </motion.article>
-        ))}
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+
+        <motion.div layout className="grid md:grid-cols-2 gap-6">
+          {filtered.map((p, i) => (
+            <motion.article
+              key={p.title}
+              layout
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              className="group glass rounded-3xl overflow-hidden hover:shadow-glow transition-all hover:-translate-y-1"
+            >
+              <div className="aspect-[16/10] overflow-hidden bg-muted">
+                <img
+                  src={p.image}
+                  alt={`${p.title} preview`}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-2 gap-2">
+                  <h3 className="text-xl font-bold">{p.title}</h3>
+                  <span className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold whitespace-nowrap">
+                    {p.category}
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                  {p.description}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {p.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                {p.live && (
+                  <a
+                    href={p.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+                  >
+                    View Live <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
+              </div>
+            </motion.article>
+          ))}
+        </motion.div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const SkillBar = ({ name, value, delay }: { name: string; value: number; delay: number }) => (
   <div>
