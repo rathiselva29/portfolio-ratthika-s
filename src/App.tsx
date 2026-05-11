@@ -496,6 +496,254 @@ const ProjectModal = ({ project, onClose }: { project: Project | null; onClose: 
   );
 };
 
+type Mask = { top: string; left?: string; right?: string; width: string; height: string };
+type Certificate = {
+  title: string;
+  description: string;
+  year: string;
+  image: string;
+  masks: Mask[];
+};
+
+const certificates: Certificate[] = [
+  {
+    title: "Junior Grade Typewriting English",
+    description:
+      "Completed Junior Grade Typewriting English certification conducted by the Government of Tamil Nadu.",
+    year: "2022",
+    image: certTypewriting,
+    masks: [
+      { top: "2%", left: "4%", width: "24%", height: "6%" },
+      { top: "2%", right: "4%", width: "24%", height: "6%" },
+      { top: "31%", left: "41%", width: "18%", height: "13%" },
+      { top: "50%", left: "36%", width: "26%", height: "5%" },
+      { top: "82%", left: "5%", width: "16%", height: "16%" },
+    ],
+  },
+  {
+    title: "Skill Development & Entrepreneurship Training Program",
+    description:
+      "Participated in Drone Technology skill development and entrepreneurship training program.",
+    year: "2023",
+    image: certDrone,
+    masks: [
+      { top: "45%", left: "0%", width: "5%", height: "35%" },
+      { top: "76%", left: "5%", width: "13%", height: "16%" },
+    ],
+  },
+  {
+    title: "Republic Day Sports Participation (2019-2020)",
+    description:
+      "Participated in Republic Day Games and Sports conducted by the School Education Department.",
+    year: "2019-2020",
+    image: certSports1,
+    masks: [{ top: "47%", left: "48%", width: "26%", height: "6%" }],
+  },
+  {
+    title: "Republic Day Sports Participation (2018-2019)",
+    description:
+      "Participated in Republic Day Games and Sports conducted by the School Education Department.",
+    year: "2018-2019",
+    image: certSports2,
+    masks: [{ top: "46%", left: "48%", width: "26%", height: "6%" }],
+  },
+  {
+    title: "Madhyama Examination Certification",
+    description:
+      "Successfully completed the Madhyama level Hindi examination (Dakshina Bharat Hindi Prachar Sabha).",
+    year: "2019",
+    image: certMadhyama,
+    masks: [
+      { top: "26%", left: "20%", width: "24%", height: "5%" },
+      { top: "86%", left: "4%", width: "26%", height: "6%" },
+    ],
+  },
+  {
+    title: "Prathamic Examination Certification",
+    description:
+      "Successfully completed the Prathamic level Hindi examination (Dakshina Bharat Hindi Prachar Sabha).",
+    year: "2016",
+    image: certPrathamic,
+    masks: [
+      { top: "25%", left: "20%", width: "24%", height: "5%" },
+      { top: "86%", left: "4%", width: "26%", height: "6%" },
+    ],
+  },
+];
+
+const CertImage = ({
+  src,
+  alt,
+  masks,
+  className = "",
+}: {
+  src: string;
+  alt: string;
+  masks: Mask[];
+  className?: string;
+}) => (
+  <div className={`relative overflow-hidden ${className}`}>
+    <img src={src} alt={alt} loading="lazy" className="w-full h-full object-cover" />
+    {masks.map((m, i) => (
+      <div
+        key={i}
+        aria-hidden
+        className="absolute backdrop-blur-xl bg-background/40"
+        style={{
+          top: m.top,
+          left: m.left,
+          right: m.right,
+          width: m.width,
+          height: m.height,
+        }}
+      />
+    ))}
+  </div>
+);
+
+const CertificateModal = ({
+  cert,
+  onClose,
+}: {
+  cert: Certificate | null;
+  onClose: () => void;
+}) => (
+  <AnimatePresence>
+    {cert && (
+      <motion.div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      >
+        <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cert-modal-title"
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          transition={{ duration: 0.25 }}
+          onClick={(e) => e.stopPropagation()}
+          className="relative glass rounded-3xl overflow-hidden w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-glow"
+        >
+          <button
+            onClick={onClose}
+            aria-label="Close certificate"
+            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background text-foreground transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          <CertImage
+            src={cert.image}
+            alt={`${cert.title} certificate`}
+            masks={cert.masks}
+            className="w-full max-h-[60vh] bg-muted"
+          />
+          <div className="p-6 sm:p-8">
+            <div className="flex items-center justify-between mb-3 gap-2">
+              <h3 id="cert-modal-title" className="text-2xl font-bold">
+                {cert.title}
+              </h3>
+              <span className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold whitespace-nowrap">
+                {cert.year}
+              </span>
+            </div>
+            <p className="text-muted-foreground leading-relaxed">
+              {cert.description}
+            </p>
+            <p className="mt-4 text-xs text-muted-foreground/80 italic">
+              Sensitive details (register no., serial no., DOB, QR code) are
+              intentionally hidden for privacy.
+            </p>
+          </div>
+        </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
+
+const Certifications = () => {
+  const [selected, setSelected] = useState<Certificate | null>(null);
+  return (
+    <section id="certifications" className="py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-glow">
+            <Award className="w-7 h-7 text-primary-foreground" />
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-extrabold mb-4">
+            Certifications &{" "}
+            <span className="text-gradient">Achievements</span>
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            A showcase of certifications, training programs, and achievements
+            earned along my journey.
+          </p>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {certificates.map((c, i) => (
+            <motion.article
+              key={c.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              className="group glass rounded-3xl overflow-hidden hover:shadow-glow transition-all hover:-translate-y-1 flex flex-col"
+            >
+              <button
+                type="button"
+                onClick={() => setSelected(c)}
+                aria-label={`Press to view ${c.title} certificate`}
+                className="relative block w-full text-left focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <CertImage
+                  src={c.image}
+                  alt={`${c.title} preview`}
+                  masks={c.masks}
+                  className="aspect-[4/3] bg-muted [&>img]:blur-[2px] [&>img]:group-hover:blur-0 [&>img]:transition-all [&>img]:duration-500 [&>img]:group-hover:scale-105"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold shadow-glow">
+                    <Eye className="w-4 h-4" /> Press to View
+                  </span>
+                </div>
+              </button>
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <h3 className="text-lg font-bold leading-snug">{c.title}</h3>
+                  <span className="shrink-0 text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold">
+                    {c.year}
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-1">
+                  {c.description}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSelected(c)}
+                  className="mt-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+                >
+                  <Eye className="w-4 h-4" /> View Certificate
+                </button>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+      <CertificateModal cert={selected} onClose={() => setSelected(null)} />
+    </section>
+  );
+};
+
 const SkillBar = ({ name, value, delay }: { name: string; value: number; delay: number }) => (
   <div>
     <div className="flex justify-between mb-2">
