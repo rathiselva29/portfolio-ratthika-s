@@ -16,6 +16,8 @@ import {
   ArrowDown,
   Heart,
   X,
+  Award,
+  Eye,
 } from "lucide-react";
 import { Suspense, lazy, useState } from "react";
 import profilePhoto from "@/assets/ratthika-photo.jpg";
@@ -26,6 +28,12 @@ import projectVsArt from "@/assets/project-vs-art.png";
 import bannerVsArt from "@/assets/banner-vs-art.png";
 import appHabitFlow from "@/assets/app-habit-flow.png";
 import logoArtika from "@/assets/logo-artika.png";
+import certTypewriting from "@/assets/cert-typewriting.jpg";
+import certDrone from "@/assets/cert-drone.jpg";
+import certSports1 from "@/assets/cert-sports-1.jpg";
+import certSports2 from "@/assets/cert-sports-2.jpg";
+import certMadhyama from "@/assets/cert-madhyama.jpg";
+import certPrathamic from "@/assets/cert-prathamic.jpg";
 
 const AIChatbot = lazy(() => import("./components/AIChatbot"));
 
