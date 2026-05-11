@@ -991,6 +991,7 @@ function App() {
         <About />
         <Projects />
         <Skills />
+        <Certifications />
         <Resume />
         <Contact />
       </main>
