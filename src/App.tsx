@@ -34,6 +34,7 @@ import certSports1 from "@/assets/cert-sports-1.jpg";
 import certSports2 from "@/assets/cert-sports-2.jpg";
 import certMadhyama from "@/assets/cert-madhyama.jpg";
 import certPrathamic from "@/assets/cert-prathamic.jpg";
+import certExcel from "@/assets/cert-excel.jpg";
 
 const AIChatbot = lazy(() => import("./components/AIChatbot"));
 
@@ -502,16 +503,37 @@ type Certificate = {
   title: string;
   description: string;
   year: string;
+  platform: string;
+  importance: string;
+  highlight?: string; // e.g. "Winner", "Distinction — 85%"
   image: string;
   masks: Mask[];
 };
 
 const certificates: Certificate[] = [
   {
+    title: "Excel — Course Completion",
+    description:
+      "Successfully completed the Excel course covering formulas, data analysis, and spreadsheet productivity.",
+    year: "2025",
+    platform: "Infosys Springboard",
+    importance:
+      "Strengthens data handling and analytical skills valued in any frontend or product role.",
+    highlight: "Course Completed",
+    image: certExcel,
+    masks: [
+      { top: "30%", right: "6%", width: "16%", height: "18%" },
+    ],
+  },
+  {
     title: "Junior Grade Typewriting English",
     description:
       "Completed Junior Grade Typewriting English certification conducted by the Government of Tamil Nadu.",
     year: "2022",
+    platform: "Government of Tamil Nadu",
+    importance:
+      "Improved typing speed and accuracy — useful for fast, efficient development workflows.",
+    highlight: "First Class — Above 60%",
     image: certTypewriting,
     masks: [
       { top: "2%", left: "4%", width: "24%", height: "6%" },
@@ -526,6 +548,9 @@ const certificates: Certificate[] = [
     description:
       "Participated in Drone Technology skill development and entrepreneurship training program.",
     year: "2023",
+    platform: "Govt. Skill Development Initiative",
+    importance:
+      "Hands-on exposure to emerging tech and entrepreneurship mindset.",
     image: certDrone,
     masks: [
       { top: "45%", left: "0%", width: "5%", height: "35%" },
@@ -537,6 +562,9 @@ const certificates: Certificate[] = [
     description:
       "Participated in Republic Day Games and Sports conducted by the School Education Department.",
     year: "2019-2020",
+    platform: "School Education Department, Tamil Nadu",
+    importance: "Demonstrates teamwork, discipline, and consistency.",
+    highlight: "Winner",
     image: certSports1,
     masks: [{ top: "47%", left: "48%", width: "26%", height: "6%" }],
   },
@@ -545,6 +573,9 @@ const certificates: Certificate[] = [
     description:
       "Participated in Republic Day Games and Sports conducted by the School Education Department.",
     year: "2018-2019",
+    platform: "School Education Department, Tamil Nadu",
+    importance: "Reflects commitment to physical fitness and team spirit.",
+    highlight: "Winner",
     image: certSports2,
     masks: [{ top: "46%", left: "48%", width: "26%", height: "6%" }],
   },
@@ -553,6 +584,9 @@ const certificates: Certificate[] = [
     description:
       "Successfully completed the Madhyama level Hindi examination (Dakshina Bharat Hindi Prachar Sabha).",
     year: "2019",
+    platform: "Dakshina Bharat Hindi Prachar Sabha",
+    importance:
+      "Demonstrates multilingual proficiency — useful for collaboration across regions.",
     image: certMadhyama,
     masks: [
       { top: "26%", left: "20%", width: "24%", height: "5%" },
@@ -564,6 +598,9 @@ const certificates: Certificate[] = [
     description:
       "Successfully completed the Prathamic level Hindi examination (Dakshina Bharat Hindi Prachar Sabha).",
     year: "2016",
+    platform: "Dakshina Bharat Hindi Prachar Sabha",
+    importance:
+      "Foundational language certification reflecting early dedication to learning.",
     image: certPrathamic,
     masks: [
       { top: "25%", left: "20%", width: "24%", height: "5%" },
