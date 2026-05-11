@@ -309,8 +309,11 @@ const About = () => (
   </section>
 );
 
+type Project = (typeof projects)[number];
+
 const Projects = () => {
   const [filter, setFilter] = useState<ProjectFilter>("All");
+  const [selected, setSelected] = useState<Project | null>(null);
   const filtered = filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
   return (
@@ -359,7 +362,16 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5 }}
-              className="group glass rounded-3xl overflow-hidden hover:shadow-glow transition-all hover:-translate-y-1"
+              onClick={() => setSelected(p)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelected(p);
+                }
+              }}
+              className="group glass rounded-3xl overflow-hidden hover:shadow-glow transition-all hover:-translate-y-1 cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <div className="aspect-[16/10] overflow-hidden bg-muted">
                 <img
@@ -394,6 +406,7 @@ const Projects = () => {
                     href={p.live}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
                   >
                     View Live <ExternalLink className="w-4 h-4" />
@@ -404,7 +417,74 @@ const Projects = () => {
           ))}
         </motion.div>
       </div>
+
+      <ProjectModal project={selected} onClose={() => setSelected(null)} />
     </section>
+  );
+};
+
+const ProjectModal = ({ project, onClose }: { project: Project | null; onClose: () => void }) => {
+  return (
+    <AnimatePresence>
+      {project && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/70 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        >
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-modal-title"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.2 }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative glass rounded-3xl overflow-hidden w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-glow"
+          >
+            <button
+              onClick={onClose}
+              aria-label="Close"
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background text-foreground transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="aspect-[16/10] overflow-hidden bg-muted">
+              <img src={project.image} alt={`${project.title} preview`} className="w-full h-full object-cover" />
+            </div>
+            <div className="p-6 sm:p-8">
+              <div className="flex items-center justify-between mb-3 gap-2">
+                <h3 id="project-modal-title" className="text-2xl font-bold">{project.title}</h3>
+                <span className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold whitespace-nowrap">
+                  {project.category}
+                </span>
+              </div>
+              <p className="text-muted-foreground mb-5 leading-relaxed">{project.description}</p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {project.tech.map((t) => (
+                  <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              {project.live && (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+                >
+                  View Live <ExternalLink className="w-4 h-4" />
+                </a>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
