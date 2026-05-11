@@ -15,6 +15,7 @@ import {
   Target,
   ArrowDown,
   Heart,
+  X,
 } from "lucide-react";
 import { Suspense, lazy, useState } from "react";
 import profilePhoto from "@/assets/ratthika-photo.jpg";
