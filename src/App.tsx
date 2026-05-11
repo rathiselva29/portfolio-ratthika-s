@@ -691,6 +691,21 @@ const CertificateModal = ({
             <p className="text-muted-foreground leading-relaxed">
               {cert.description}
             </p>
+            <div className="grid sm:grid-cols-2 gap-4 mt-5">
+              <div className="rounded-2xl bg-background/40 border border-border/50 p-4">
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Platform</p>
+                <p className="text-sm font-semibold">{cert.platform}</p>
+              </div>
+              <div className="rounded-2xl bg-background/40 border border-border/50 p-4">
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Importance</p>
+                <p className="text-sm">{cert.importance}</p>
+              </div>
+            </div>
+            {cert.highlight && (
+              <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold border border-primary/20">
+                <Award className="w-3.5 h-3.5" /> {cert.highlight}
+              </div>
+            )}
             <p className="mt-4 text-xs text-muted-foreground/80 italic">
               Sensitive details (register no., serial no., DOB, QR code) are
               intentionally hidden for privacy.
@@ -728,53 +743,63 @@ const Certifications = () => {
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {certificates.map((c, i) => (
-            <motion.article
-              key={c.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
-              className="group glass rounded-3xl overflow-hidden hover:shadow-glow transition-all hover:-translate-y-1 flex flex-col"
-            >
-              <button
-                type="button"
-                onClick={() => setSelected(c)}
-                aria-label={`Press to view ${c.title} certificate`}
-                className="relative block w-full text-left focus:outline-none focus:ring-2 focus:ring-primary"
+          {certificates.map((c, i) => {
+            const isHighlighted =
+              !!c.highlight &&
+              (/winner/i.test(c.highlight) ||
+                /\b(6[0-9]|[7-9][0-9]|100)\s*%/.test(c.highlight) ||
+                /distinction|first class|above 60/i.test(c.highlight));
+            return (
+              <motion.article
+                key={c.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+                className={`group glass rounded-3xl overflow-hidden hover:shadow-glow transition-all hover:-translate-y-1 flex flex-col ${
+                  isHighlighted ? "bg-background/70 border border-primary/40 shadow-glow" : ""
+                }`}
               >
-                <CertImage
-                  src={c.image}
-                  alt={`${c.title} preview`}
-                  masks={c.masks}
-                  className="aspect-[4/3] bg-muted [&>img]:blur-[2px] [&>img]:group-hover:blur-0 [&>img]:transition-all [&>img]:duration-500 [&>img]:group-hover:scale-105"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold shadow-glow">
-                    <Eye className="w-4 h-4" /> Press to View
-                  </span>
+                <div className="p-6 flex-1 flex flex-col">
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-primary flex items-center justify-center shadow-glow shrink-0">
+                      <Award className="w-5 h-5 text-primary-foreground" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold">
+                      {c.year}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold leading-snug mb-2">{c.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">
+                    {c.description}
+                  </p>
+                  <div className="space-y-2 mb-4 text-sm">
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Platform</p>
+                      <p className="font-medium">{c.platform}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Importance</p>
+                      <p className="text-muted-foreground">{c.importance}</p>
+                    </div>
+                  </div>
+                  {isHighlighted && (
+                    <div className="mb-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 text-primary text-xs font-bold border border-primary/30 self-start">
+                      <Award className="w-3.5 h-3.5" /> {c.highlight}
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setSelected(c)}
+                    aria-label={`View ${c.title} certificate`}
+                    className="mt-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+                  >
+                    <Eye className="w-4 h-4" /> Press to View Certificate
+                  </button>
                 </div>
-              </button>
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="text-lg font-bold leading-snug">{c.title}</h3>
-                  <span className="shrink-0 text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold">
-                    {c.year}
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-1">
-                  {c.description}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setSelected(c)}
-                  className="mt-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
-                >
-                  <Eye className="w-4 h-4" /> View Certificate
-                </button>
-              </div>
-            </motion.article>
-          ))}
+              </motion.article>
+            );
+          })}
         </div>
       </div>
       <CertificateModal cert={selected} onClose={() => setSelected(null)} />
