@@ -164,6 +164,7 @@ const NavBar = () => (
             ["About", "about"],
             ["Projects", "projects"],
             ["Skills", "skills"],
+            ["Certifications", "certifications"],
             ["Resume", "resume"],
             ["Contact", "contact"],
           ].map(([label, id]) => (
