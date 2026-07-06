@@ -27,7 +27,6 @@ import projectDaily from "@/assets/project-daily.jpg";
 import projectVsArt from "@/assets/project-vs-art.png";
 import projectSkyflyIntl from "@/assets/project-skyfly-intl.jpg";
 import projectIndiaSkyfly from "@/assets/project-india-skyfly.jpg";
-import projectVsArt from "@/assets/project-vs-art.png";
 import bannerVsArt from "@/assets/banner-vs-art.png";
 import appHabitFlow from "@/assets/app-habit-flow.png";
 import logoArtika from "@/assets/logo-artika.png";
