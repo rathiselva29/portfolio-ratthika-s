@@ -20,6 +20,11 @@ import {
   Eye,
 } from "lucide-react";
 import { Suspense, lazy, useState } from "react";
+import { Helmet } from "react-helmet-async";
+
+const SITE_URL = "https://rathi-design.lovable.app";
+const slugify = (s: string) =>
+  s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 import profilePhoto from "@/assets/ratthika-photo.jpg";
 import projectArtika from "@/assets/project-artika.png";
 import projectHabit from "@/assets/project-habit.png";
