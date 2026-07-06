@@ -351,8 +351,53 @@ const Projects = () => {
   const [selected, setSelected] = useState<Project | null>(null);
   const filtered = filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
+  const pageTitle = selected
+    ? `${selected.title} — ${selected.category} Project by Ratthika S`
+    : filter === "All"
+      ? "Projects — Ratthika S | Frontend Developer & Designer"
+      : `${filter} Projects — Ratthika S | Frontend Developer & Designer`;
+  const pageDescription = selected
+    ? `${selected.description} Built with ${selected.tech.join(", ")}.`
+    : filter === "All"
+      ? "Explore websites, applications, banners, and logo designs crafted by Ratthika S — a Frontend Developer and Creative Designer."
+      : `Explore ${filter.toLowerCase()} projects by Ratthika S — Frontend Developer and Creative Designer.`;
+  const canonical = selected
+    ? `${SITE_URL}/#projects/${slugify(selected.title)}`
+    : filter === "All"
+      ? `${SITE_URL}/#projects`
+      : `${SITE_URL}/#projects/category/${slugify(filter)}`;
+  const ogImage = selected ? `${SITE_URL}${selected.image}` : undefined;
+
   return (
     <section id="projects" className="py-24 px-4 sm:px-6 lg:px-8 bg-muted/30">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <link rel="canonical" href={canonical} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:type" content={selected ? "article" : "website"} />
+        {ogImage && <meta property="og:image" content={ogImage} />}
+        <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        {selected && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CreativeWork",
+              name: selected.title,
+              description: selected.description,
+              url: selected.live || canonical,
+              image: ogImage,
+              keywords: selected.tech.join(", "),
+              genre: selected.category,
+              author: { "@type": "Person", name: "Ratthika S" },
+            })}
+          </script>
+        )}
+      </Helmet>
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
