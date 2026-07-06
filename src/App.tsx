@@ -96,6 +96,24 @@ const projects: {
     category: "Websites",
   },
   {
+    title: "Skyfly International",
+    description:
+      "Professional company website built for Skyfly International. Designed and developed for a client and successfully sold as a complete web solution.",
+    image: projectSkyflyIntl,
+    live: "https://www.skyflyintl.com",
+    tech: ["HTML", "CSS", "JavaScript"],
+    category: "Websites",
+  },
+  {
+    title: "India Skyfly",
+    description:
+      "A modern India-focused travel and services website with an elegant layout, built to showcase destinations and offerings for Skyfly.",
+    image: projectIndiaSkyfly,
+    live: "https://india-skyfly.lovable.app",
+    tech: ["React", "Tailwind CSS", "Responsive"],
+    category: "Websites",
+  },
+  {
     title: "Habit Flow App",
     description:
       "A mobile-friendly habit tracking application designed for daily use. Build better habits with an intuitive interface, streak tracking, and a smooth experience optimized for on-the-go productivity.",
