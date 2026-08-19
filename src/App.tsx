@@ -1160,17 +1160,23 @@ const Footer = () => (
           { Icon: Linkedin, url: LINKEDIN_URL, label: "LinkedIn" },
           { Icon: Instagram, url: INSTAGRAM_URL, label: "Instagram" },
           { Icon: Mail, url: `mailto:${EMAIL}`, label: "Email" },
-        ].map(({ Icon, url, label }) => (
-          <a
+        ].map(({ Icon, url, label }, i) => (
+          <motion.a
             key={label}
             href={url}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            className="w-9 h-9 rounded-full glass flex items-center justify-center text-muted-foreground hover:text-primary hover:shadow-glow transition-all"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.08, duration: 0.4 }}
+            whileHover={{ scale: 1.18, y: -4, rotate: -6 }}
+            whileTap={{ scale: 0.92 }}
+            className="w-9 h-9 rounded-full glass flex items-center justify-center text-muted-foreground hover:text-primary hover:shadow-glow transition-colors"
           >
             <Icon className="w-4 h-4" />
-          </a>
+          </motion.a>
         ))}
       </div>
     </div>
