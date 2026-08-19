@@ -1186,6 +1186,8 @@ const Footer = () => (
 function App() {
   return (
     <div className="min-h-screen bg-background">
+      <ScrollProgress />
+      <AmbientMotion />
       <NavBar />
       <main>
         <Hero />
