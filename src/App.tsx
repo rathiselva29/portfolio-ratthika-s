@@ -501,10 +501,13 @@ const Projects = () => {
             <motion.article
               key={p.title}
               layout
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
+              initial={{ opacity: 0, y: 40, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: i * 0.08, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -10, rotateX: 3, rotateY: -3 }}
+              whileTap={{ scale: 0.98 }}
+              style={{ transformPerspective: 900 }}
               onClick={() => setSelected(p)}
               role="button"
               tabIndex={0}
@@ -514,7 +517,7 @@ const Projects = () => {
                   setSelected(p);
                 }
               }}
-              className="group glass rounded-3xl overflow-hidden hover:shadow-glow transition-all hover:-translate-y-1 cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary"
+              className="group glass rounded-3xl overflow-hidden hover:shadow-glow cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <div className="aspect-[16/10] overflow-hidden bg-muted">
                 <img
