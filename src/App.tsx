@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   Github,
   Linkedin,
@@ -110,11 +110,11 @@ const projects: {
     category: "Websites",
   },
   {
-    title: "India Skyfly",
+    title: "Skyfly Global Journey",
     description:
-      "A modern India-focused travel and services website with an elegant layout, built to showcase destinations and offerings for Skyfly.",
+      "A modern travel website built for Skyfly — elegant destination showcases, smooth section transitions and a fully responsive booking-style layout.",
     image: projectIndiaSkyfly,
-    live: "https://india-skyfly.lovable.app",
+    live: "https://travel-global-journey.lovable.app",
     tech: ["React", "Tailwind CSS", "Responsive"],
     category: "Websites",
   },
@@ -174,16 +174,62 @@ const scrollTo = (id: string) => {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
+const ScrollProgress = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 26, restDelta: 0.001 });
+  return (
+    <motion.div
+      style={{ scaleX }}
+      className="fixed top-0 left-0 right-0 h-[3px] origin-left bg-gradient-primary z-[60]"
+    />
+  );
+};
+
+/* Site-wide slow drifting aurora orbs */
+const AmbientMotion = () => {
+  const { scrollYProgress } = useScroll();
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -180]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, 220]);
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <motion.div
+        style={{ y: y1 }}
+        animate={{ x: [0, 60, -30, 0], scale: [1, 1.15, 0.95, 1] }}
+        transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[10%] -left-40 w-[28rem] h-[28rem] rounded-full bg-primary/20 blur-3xl"
+      />
+      <motion.div
+        style={{ y: y2 }}
+        animate={{ x: [0, -70, 40, 0], scale: [1, 0.9, 1.1, 1] }}
+        transition={{ duration: 32, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[45%] -right-40 w-[26rem] h-[26rem] rounded-full bg-secondary/20 blur-3xl"
+      />
+      <motion.div
+        animate={{ x: [0, 40, -50, 0], y: [0, -40, 30, 0] }}
+        transition={{ duration: 38, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-[5%] left-1/3 w-[22rem] h-[22rem] rounded-full bg-accent/15 blur-3xl"
+      />
+    </div>
+  );
+};
+
 const NavBar = () => (
-  <nav className="fixed top-0 left-0 right-0 z-50 glass">
+  <motion.nav
+    initial={{ y: -70, opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    className="fixed top-0 left-0 right-0 z-50 glass"
+  >
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between h-16">
-        <button
+        <motion.button
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => scrollTo("home")}
           className="text-xl font-bold text-gradient"
         >
           Ratthika S
-        </button>
+        </motion.button>
         <div className="hidden md:flex items-center gap-1">
           {[
             ["Home", "home"],
@@ -193,25 +239,42 @@ const NavBar = () => (
             ["Certifications", "certifications"],
             ["Resume", "resume"],
             ["Contact", "contact"],
-          ].map(([label, id]) => (
-            <button
+          ].map(([label, id], i) => (
+            <motion.button
               key={id}
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 + i * 0.06, duration: 0.4 }}
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.94 }}
               onClick={() => scrollTo(id)}
-              className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="relative px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
             >
               {label}
-            </button>
+              <span className="absolute left-3 right-3 -bottom-0.5 h-[2px] rounded-full bg-gradient-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
+            </motion.button>
           ))}
         </div>
-        <button
+        <motion.button
+          whileHover={{ scale: 1.06, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          animate={{ boxShadow: ["0 0 0px hsl(var(--primary)/0.4)", "0 0 28px hsl(var(--primary)/0.55)", "0 0 0px hsl(var(--primary)/0.4)"] }}
+          transition={{ boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
           onClick={() => scrollTo("contact")}
-          className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity shadow-glow"
+          className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold"
         >
-          <Sparkles className="w-4 h-4" /> Hire Me
-        </button>
+          <motion.span
+            animate={{ rotate: [0, 20, -20, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="inline-flex"
+          >
+            <Sparkles className="w-4 h-4" />
+          </motion.span>
+          Hire Me
+        </motion.button>
       </div>
     </div>
-  </nav>
+  </motion.nav>
 );
 
 const Hero = () => (
@@ -438,10 +501,13 @@ const Projects = () => {
             <motion.article
               key={p.title}
               layout
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
+              initial={{ opacity: 0, y: 40, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: i * 0.08, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -10, rotateX: 3, rotateY: -3 }}
+              whileTap={{ scale: 0.98 }}
+              style={{ transformPerspective: 900 }}
               onClick={() => setSelected(p)}
               role="button"
               tabIndex={0}
@@ -451,7 +517,7 @@ const Projects = () => {
                   setSelected(p);
                 }
               }}
-              className="group glass rounded-3xl overflow-hidden hover:shadow-glow transition-all hover:-translate-y-1 cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary"
+              className="group glass rounded-3xl overflow-hidden hover:shadow-glow cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <div className="aspect-[16/10] overflow-hidden bg-muted">
                 <img
@@ -1097,17 +1163,23 @@ const Footer = () => (
           { Icon: Linkedin, url: LINKEDIN_URL, label: "LinkedIn" },
           { Icon: Instagram, url: INSTAGRAM_URL, label: "Instagram" },
           { Icon: Mail, url: `mailto:${EMAIL}`, label: "Email" },
-        ].map(({ Icon, url, label }) => (
-          <a
+        ].map(({ Icon, url, label }, i) => (
+          <motion.a
             key={label}
             href={url}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            className="w-9 h-9 rounded-full glass flex items-center justify-center text-muted-foreground hover:text-primary hover:shadow-glow transition-all"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.08, duration: 0.4 }}
+            whileHover={{ scale: 1.18, y: -4, rotate: -6 }}
+            whileTap={{ scale: 0.92 }}
+            className="w-9 h-9 rounded-full glass flex items-center justify-center text-muted-foreground hover:text-primary hover:shadow-glow transition-colors"
           >
             <Icon className="w-4 h-4" />
-          </a>
+          </motion.a>
         ))}
       </div>
     </div>
@@ -1117,6 +1189,8 @@ const Footer = () => (
 function App() {
   return (
     <div className="min-h-screen bg-background">
+      <ScrollProgress />
+      <AmbientMotion />
       <NavBar />
       <main>
         <Hero />
