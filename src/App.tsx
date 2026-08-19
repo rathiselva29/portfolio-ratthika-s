@@ -110,11 +110,11 @@ const projects: {
     category: "Websites",
   },
   {
-    title: "India Skyfly",
+    title: "Skyfly Global Journey",
     description:
-      "A modern India-focused travel and services website with an elegant layout, built to showcase destinations and offerings for Skyfly.",
+      "A modern travel website built for Skyfly — elegant destination showcases, smooth section transitions and a fully responsive booking-style layout.",
     image: projectIndiaSkyfly,
-    live: "https://india-skyfly.lovable.app",
+    live: "https://travel-global-journey.lovable.app",
     tech: ["React", "Tailwind CSS", "Responsive"],
     category: "Websites",
   },
