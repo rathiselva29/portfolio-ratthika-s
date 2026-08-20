@@ -985,7 +985,17 @@ const Certifications = () => {
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="relative">
+          {/* animated timeline line */}
+          <motion.div
+            aria-hidden
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 1.6, ease: "easeOut" }}
+            className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px origin-top bg-gradient-to-b from-transparent via-primary/50 to-transparent"
+          />
+        <div className="relative grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {certificates.map((c, i) => {
             const isHighlighted =
               !!c.highlight &&
