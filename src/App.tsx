@@ -528,7 +528,9 @@ const Projects = () => {
           </script>
         )}
       </Helmet>
-      <div className="max-w-6xl mx-auto">
+      <SceneWord word="Work" from="right" />
+      <div className="max-w-6xl mx-auto -mt-6">
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -564,70 +566,11 @@ const Projects = () => {
         </div>
 
         <motion.div layout className="grid md:grid-cols-2 gap-6">
-          {filtered.map((p, i) => (
-            <motion.article
-              key={p.title}
-              layout
-              initial={{ opacity: 0, y: 40, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: i * 0.08, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -10, rotateX: 3, rotateY: -3 }}
-              whileTap={{ scale: 0.98 }}
-              style={{ transformPerspective: 900 }}
-              onClick={() => setSelected(p)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setSelected(p);
-                }
-              }}
-              className="group glass rounded-3xl overflow-hidden hover:shadow-glow cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <div className="aspect-[16/10] overflow-hidden bg-muted">
-                <img
-                  src={p.image}
-                  alt={`${p.title} preview`}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2 gap-2">
-                  <h3 className="text-xl font-bold">{p.title}</h3>
-                  <span className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold whitespace-nowrap">
-                    {p.category}
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                  {p.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {p.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                {p.live && (
-                  <a
-                    href={p.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
-                  >
-                    View Live <ExternalLink className="w-4 h-4" />
-                  </a>
-                )}
-              </div>
-            </motion.article>
-          ))}
+          <AnimatePresence mode="popLayout">
+            {filtered.map((p, i) => (
+              <ProjectCard key={p.title} project={p} index={i} onOpen={() => setSelected(p)} />
+            ))}
+          </AnimatePresence>
         </motion.div>
       </div>
 
@@ -635,6 +578,103 @@ const Projects = () => {
     </section>
   );
 };
+
+const ProjectCard = ({
+  project: p,
+  index,
+  onOpen,
+}: {
+  project: Project;
+  index: number;
+  onOpen: () => void;
+}) => {
+  const { rotateX, rotateY, onMouseMove, onMouseLeave } = useTilt(7);
+  return (
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 50, scale: 0.96, filter: "blur(8px)" }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+      exit={{ opacity: 0, scale: 0.94, filter: "blur(6px)" }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ delay: index * 0.08, duration: 0.7, ease: EASE_OUT }}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      style={{ rotateX, rotateY, transformPerspective: 1000 }}
+      whileHover={{ y: -10 }}
+      whileTap={{ scale: 0.985 }}
+      onClick={onOpen}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      className="group relative glass rounded-3xl overflow-hidden hover:shadow-glow cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary"
+    >
+      <motion.span
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.25 + index * 0.08, duration: 0.6, ease: EASE_OUT }}
+        className="absolute top-4 left-4 z-10 font-mono text-xs font-bold px-2.5 py-1 rounded-full bg-background/70 backdrop-blur text-primary border border-primary/30"
+      >
+        {String(index + 1).padStart(2, "0")}
+      </motion.span>
+
+      <div className="aspect-[16/10] overflow-hidden bg-muted">
+        <motion.img
+          src={p.image}
+          alt={`${p.title} preview`}
+          loading="lazy"
+          initial={{ scale: 1.15, clipPath: "inset(0 100% 0 0)" }}
+          whileInView={{ scale: 1, clipPath: "inset(0 0% 0 0)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 1.1, ease: EASE_OUT, delay: index * 0.06 }}
+          className="w-full h-full object-cover group-hover:scale-[1.07] transition-transform duration-700"
+        />
+      </div>
+      <div className="p-6" style={{ transform: "translateZ(30px)" }}>
+        <div className="flex items-center justify-between mb-2 gap-2">
+          <h3 className="text-xl font-bold">{p.title}</h3>
+          <span className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold whitespace-nowrap">
+            {p.category}
+          </span>
+        </div>
+        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{p.description}</p>
+        <div className="flex flex-wrap gap-2 mb-5">
+          {p.tech.map((t, ti) => (
+            <motion.span
+              key={t}
+              initial={{ opacity: 0, y: 10, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.35 + ti * 0.07, duration: 0.4, ease: EASE_OUT }}
+              className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium"
+            >
+              {t}
+            </motion.span>
+          ))}
+        </div>
+        {p.live && (
+          <Magnetic strength={0.25}>
+            <a
+              href={p.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+            >
+              View Live <ExternalLink className="w-4 h-4" />
+            </a>
+          </Magnetic>
+        )}
+      </div>
+    </motion.article>
+  );
+};
+
 
 const ProjectModal = ({ project, onClose }: { project: Project | null; onClose: () => void }) => {
   return (
