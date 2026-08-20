@@ -1054,6 +1054,7 @@ const Certifications = () => {
             );
           })}
         </div>
+        </div>
       </div>
       <CertificateModal cert={selected} onClose={() => setSelected(null)} />
     </section>
