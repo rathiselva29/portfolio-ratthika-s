@@ -19,8 +19,21 @@ import {
   Award,
   Eye,
 } from "lucide-react";
-import { Suspense, lazy, useState } from "react";
+import { Suspense, lazy, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import {
+  CinematicIntro,
+  ParticleField,
+  CursorGlow,
+  Magnetic,
+  RevealChars,
+  RevealWords,
+  MaskReveal,
+  SceneWord,
+  CodeWindow,
+  useTilt,
+  EASE_OUT,
+} from "@/components/motion-kit";
 
 const SITE_URL = "https://rathi-design.lovable.app";
 const slugify = (s: string) =>
@@ -277,123 +290,177 @@ const NavBar = () => (
   </motion.nav>
 );
 
-const Hero = () => (
-  <section
-    id="home"
-    className="relative min-h-screen flex items-center pt-20 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-hero"
-  >
-    {/* Animated blobs */}
-    <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-blob" />
-    <div className="absolute top-1/3 -right-32 w-96 h-96 bg-secondary/30 rounded-full blur-3xl animate-blob [animation-delay:3s]" />
-    <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-accent/30 rounded-full blur-3xl animate-blob [animation-delay:6s]" />
+const Hero = () => {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.86]);
+  const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
+  const imgY = useTransform(scrollYProgress, [0, 1], [0, 90]);
 
-    <div className="relative max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
+  return (
+    <section
+      ref={ref}
+      id="home"
+      className="relative min-h-screen flex items-center pt-20 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-hero"
+    >
+      {/* Animated blobs */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-blob" />
+      <div className="absolute top-1/3 -right-32 w-96 h-96 bg-secondary/30 rounded-full blur-3xl animate-blob [animation-delay:3s]" />
+      <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-accent/30 rounded-full blur-3xl animate-blob [animation-delay:6s]" />
+      <ParticleField count={30} />
+
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
+        style={{ y, scale, opacity }}
+        className="relative max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center"
       >
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20 mb-5">
-          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          Available for opportunities
-        </span>
-        <h1 className="text-5xl lg:text-7xl font-extrabold leading-[1.05] mb-4">
-          I'am <span className="text-gradient">Ratthika S</span>
-        </h1>
-        <p className="text-xl lg:text-2xl font-semibold text-foreground/80 mb-5">
-          Creative Designer | Frontend Developer
-        </p>
-        <p className="text-muted-foreground mb-8 max-w-lg leading-relaxed">
-          I am a Computer Science and Engineering student passionate about
-          building responsive websites and creating visually appealing designs.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <button
-            onClick={() => scrollTo("projects")}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity shadow-glow"
+        <div>
+          <motion.span
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.9, duration: 0.6, ease: EASE_OUT }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20 mb-5"
           >
-            View Projects <ArrowDown className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => scrollTo("contact")}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-card hover:bg-muted transition-colors font-semibold"
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            Available for opportunities
+          </motion.span>
+
+          <h1 className="text-5xl lg:text-7xl font-extrabold leading-[1.05] mb-4">
+            <RevealChars text="I'am " delay={2.0} />
+            <RevealChars text="Ratthika S" delay={2.25} className="text-gradient" />
+          </h1>
+
+          <MaskReveal delay={0.1} className="mb-5">
+            <motion.p
+              initial={{ letterSpacing: "0.3em", opacity: 0 }}
+              animate={{ letterSpacing: "0.02em", opacity: 1 }}
+              transition={{ delay: 2.7, duration: 1, ease: EASE_OUT }}
+              className="text-xl lg:text-2xl font-semibold text-foreground/80 uppercase drop-shadow-[0_0_18px_hsl(var(--primary)/0.35)]"
+            >
+              Creative Designer | Frontend Developer
+            </motion.p>
+          </MaskReveal>
+
+          <MaskReveal delay={0.25}>
+            <p className="text-muted-foreground mb-8 max-w-lg leading-relaxed">
+              I am a Computer Science and Engineering student passionate about
+              building responsive websites and creating visually appealing designs.
+            </p>
+          </MaskReveal>
+
+          <motion.div
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 3.1, duration: 0.7, ease: EASE_OUT }}
+            className="flex flex-wrap gap-3"
           >
-            <Mail className="w-4 h-4" /> Contact Me
-          </button>
+            <Magnetic>
+              <button
+                onClick={() => scrollTo("projects")}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity shadow-glow"
+              >
+                View Projects <ArrowDown className="w-4 h-4" />
+              </button>
+            </Magnetic>
+            <Magnetic>
+              <button
+                onClick={() => scrollTo("contact")}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-card hover:bg-muted transition-colors font-semibold"
+              >
+                <Mail className="w-4 h-4" /> Contact Me
+              </button>
+            </Magnetic>
+          </motion.div>
         </div>
-      </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="relative flex justify-center lg:justify-end"
-      >
-        <div className="relative animate-float">
-          <div className="absolute inset-0 bg-gradient-primary rounded-[2rem] blur-2xl opacity-50 animate-pulse-glow" />
-          <div className="relative w-72 h-80 sm:w-80 sm:h-96 rounded-[2rem] overflow-hidden border-4 border-white/40 shadow-glow">
-            <img
-              src={profilePhoto}
-              alt="Ratthika S — Frontend Developer and Designer"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="absolute -bottom-4 -left-4 glass rounded-2xl px-4 py-3 shadow-card animate-float-slow">
-            <div className="flex items-center gap-2">
-              <Code2 className="w-5 h-5 text-primary" />
-              <div className="text-sm">
-                <div className="font-bold leading-none">Frontend</div>
-                <div className="text-xs text-muted-foreground">Developer</div>
+        <motion.div
+          style={{ y: imgY }}
+          initial={{ opacity: 0, scale: 0.9, rotateY: 12 }}
+          animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+          transition={{ duration: 1.1, delay: 2.2, ease: EASE_OUT }}
+          className="relative flex justify-center lg:justify-end"
+        >
+          <div className="relative animate-float">
+            <div className="absolute inset-0 bg-gradient-primary rounded-[2rem] blur-2xl opacity-50 animate-pulse-glow" />
+            <div className="relative w-72 h-80 sm:w-80 sm:h-96 rounded-[2rem] overflow-hidden border-4 border-white/40 shadow-glow">
+              <img
+                src={profilePhoto}
+                alt="Ratthika S — Frontend Developer and Designer"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="absolute -bottom-4 -left-4 glass rounded-2xl px-4 py-3 shadow-card animate-float-slow">
+              <div className="flex items-center gap-2">
+                <Code2 className="w-5 h-5 text-primary" />
+                <div className="text-sm">
+                  <div className="font-bold leading-none">Frontend</div>
+                  <div className="text-xs text-muted-foreground">Developer</div>
+                </div>
+              </div>
+            </div>
+            <div className="absolute -top-4 -right-4 glass rounded-2xl px-4 py-3 shadow-card animate-float-slow [animation-delay:2s]">
+              <div className="flex items-center gap-2">
+                <Palette className="w-5 h-5 text-secondary" />
+                <div className="text-sm">
+                  <div className="font-bold leading-none">Creative</div>
+                  <div className="text-xs text-muted-foreground">Designer</div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="absolute -top-4 -right-4 glass rounded-2xl px-4 py-3 shadow-card animate-float-slow [animation-delay:2s]">
-            <div className="flex items-center gap-2">
-              <Palette className="w-5 h-5 text-secondary" />
-              <div className="text-sm">
-                <div className="font-bold leading-none">Creative</div>
-                <div className="text-xs text-muted-foreground">Designer</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </motion.div>
-    </div>
-  </section>
-);
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 3.6, duration: 0.8 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground"
+      >
+        <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+        <motion.span
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ArrowDown className="w-4 h-4" />
+        </motion.span>
+      </motion.div>
+    </section>
+  );
+};
 
 const About = () => (
-  <section id="about" className="py-24 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-6xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-12"
-      >
-        <h2 className="text-4xl lg:text-5xl font-extrabold mb-4">
-          About <span className="text-gradient">Me</span>
-        </h2>
-        <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed text-lg">
-          Ratthika is a dedicated Computer Science and Engineering student with
-          strong interest in frontend development and creative design. Skilled
-          in HTML, CSS, MySQL, Git, and GitHub. Experienced in Canva-based
-          designing including logo creation, layout design, banner and poster
-          design. Currently seeking internship opportunities to gain practical
-          industry experience.
-        </p>
-      </motion.div>
+  <section id="about" className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <SceneWord word="Who am I?" from="left" />
+    <div className="max-w-6xl mx-auto -mt-6">
+      <div className="grid lg:grid-cols-[1.2fr,0.8fr] gap-12 items-center mb-14">
+        <div>
+          <MaskReveal>
+            <h2 className="text-4xl lg:text-5xl font-extrabold mb-4">
+              About <span className="text-gradient">Me</span>
+            </h2>
+          </MaskReveal>
+          <RevealWords
+            className="text-muted-foreground leading-relaxed text-lg"
+            text="Ratthika is a dedicated Computer Science and Engineering student with strong interest in frontend development and creative design. Skilled in HTML, CSS, MySQL, Git, and GitHub. Experienced in Canva-based designing including logo creation, layout design, banner and poster design. Currently seeking internship opportunities to gain practical industry experience."
+          />
+        </div>
+        <div className="flex justify-center lg:justify-end">
+          <CodeWindow />
+        </div>
+      </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map((s, i) => (
           <motion.div
             key={s.label}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30, rotateX: 18 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.5 }}
-            className="glass rounded-2xl p-6 text-center hover:shadow-glow transition-all hover:-translate-y-1"
+            transition={{ delay: i * 0.1, duration: 0.6, ease: EASE_OUT }}
+            whileHover={{ y: -8, scale: 1.03 }}
+            style={{ transformPerspective: 800 }}
+            className="glass rounded-2xl p-6 text-center hover:shadow-glow transition-shadow"
           >
             <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-primary flex items-center justify-center">
               <s.icon className="w-6 h-6 text-primary-foreground" />
