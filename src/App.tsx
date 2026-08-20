@@ -1079,15 +1079,21 @@ const SkillBar = ({ name, value, delay }: { name: string; value: number; delay: 
   </div>
 );
 
+const TECH_STACK = [
+  "HTML", "CSS", "JavaScript", "React", "Vite", "Python",
+  "MySQL", "Git", "GitHub", "Canva", "Photoshop", "Figma",
+];
+
 const Skills = () => (
-  <section id="skills" className="py-24 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-6xl mx-auto">
+  <section id="skills" className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <SceneWord word="Tech Stack" from="left" />
+    <div className="max-w-6xl mx-auto -mt-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-14"
+        transition={{ duration: 0.6, ease: EASE_OUT }}
+        className="text-center mb-10"
       >
         <h2 className="text-4xl lg:text-5xl font-extrabold mb-4">
           My <span className="text-gradient">Skills</span>
@@ -1097,8 +1103,32 @@ const Skills = () => (
         </p>
       </motion.div>
 
+      <div className="flex flex-wrap justify-center gap-3 mb-14">
+        {TECH_STACK.map((t, i) => (
+          <motion.span
+            key={t}
+            initial={{ opacity: 0, y: 24, scale: 0.85, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ delay: i * 0.06, duration: 0.5, ease: EASE_OUT }}
+            whileHover={{ scale: 1.12, y: -6 }}
+            animate={{ y: [0, i % 2 ? -6 : 6, 0] }}
+            className="glass px-5 py-2.5 rounded-full text-sm font-semibold cursor-default hover:text-primary hover:shadow-glow transition-colors"
+            style={{ animationDelay: `${i * 0.2}s` }}
+          >
+            {t}
+          </motion.span>
+        ))}
+      </div>
+
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="glass rounded-3xl p-8">
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: EASE_OUT }}
+          className="glass rounded-3xl p-8"
+        >
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
               <Code2 className="w-5 h-5 text-primary-foreground" />
@@ -1110,8 +1140,14 @@ const Skills = () => (
               <SkillBar key={s.name} {...s} delay={i * 0.1} />
             ))}
           </div>
-        </div>
-        <div className="glass rounded-3xl p-8">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: EASE_OUT }}
+          className="glass rounded-3xl p-8"
+        >
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
               <Palette className="w-5 h-5 text-primary-foreground" />
@@ -1123,49 +1159,54 @@ const Skills = () => (
               <SkillBar key={s.name} {...s} delay={i * 0.1} />
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   </section>
 );
 
 const Resume = () => (
-  <section id="resume" className="py-24 px-4 sm:px-6 lg:px-8 bg-muted/30">
-    <div className="max-w-4xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="glass rounded-3xl p-10 text-center shadow-card"
+  <section id="resume" className="relative py-28 px-4 sm:px-6 lg:px-8 bg-muted/30 overflow-hidden">
+    <motion.div
+      aria-hidden
+      animate={{ rotate: 360 }}
+      transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+      className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[46rem] h-[46rem] rounded-full border border-primary/10"
+    />
+    <div className="relative max-w-5xl mx-auto text-center">
+      <motion.h2
+        initial={{ opacity: 0, scale: 0.7, filter: "blur(14px)" }}
+        whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 1.2, ease: EASE_OUT }}
+        className="text-4xl sm:text-6xl lg:text-7xl font-extrabold uppercase leading-[0.95] tracking-tight mb-6"
       >
-        <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-glow">
-          <Download className="w-7 h-7 text-primary-foreground" />
-        </div>
-        <h2 className="text-3xl lg:text-4xl font-extrabold mb-3">
-          My <span className="text-gradient">Resume</span>
-        </h2>
-        <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+        Let's build <span className="text-gradient">something great.</span>
+      </motion.h2>
+      <MaskReveal delay={0.2}>
+        <p className="text-muted-foreground mb-10 max-w-xl mx-auto text-lg">
           Take a look at my full background, education, and skills.
         </p>
-        <div className="flex flex-wrap gap-3 justify-center">
+      </MaskReveal>
+      <div className="flex flex-wrap gap-4 justify-center">
+        <Magnetic>
           <a
             href={RESUME_URL}
             download="Ratthika_S_Resume.pdf"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity shadow-glow"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity shadow-glow"
           >
             <Download className="w-4 h-4" /> Download Resume
           </a>
-          <a
-            href={RESUME_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-card hover:bg-muted transition-colors font-semibold"
+        </Magnetic>
+        <Magnetic>
+          <button
+            onClick={() => scrollTo("projects")}
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-border bg-card hover:bg-muted transition-colors font-semibold"
           >
-            <ExternalLink className="w-4 h-4" /> View Resume
-          </a>
-        </div>
-      </motion.div>
+            <ExternalLink className="w-4 h-4" /> View Projects
+          </button>
+        </Magnetic>
+      </div>
     </div>
   </section>
 );
@@ -1180,22 +1221,19 @@ const Contact = () => {
   return (
     <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <h2 className="text-4xl lg:text-5xl font-extrabold mb-4">
-            Get In <span className="text-gradient">Touch</span>
+            <RevealWords text="Let's create" />
+            <RevealWords text="something." className="text-gradient" delay={0.2} />
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            If you are a recruiter or company and interested in my work, feel
-            free to contact me. I am actively looking for job and internship
-            opportunities.
-          </p>
-        </motion.div>
+          <MaskReveal delay={0.2}>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
+              If you are a recruiter or company and interested in my work, feel
+              free to contact me. I am actively looking for job and internship
+              opportunities.
+            </p>
+          </MaskReveal>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-4 mb-8">
           <a
