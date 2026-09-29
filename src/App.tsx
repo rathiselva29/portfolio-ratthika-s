@@ -43,8 +43,6 @@ import projectArtika from "@/assets/project-artika.png";
 import projectHabit from "@/assets/project-habit.png";
 import projectDaily from "@/assets/project-daily.jpg";
 import projectVsArt from "@/assets/project-vs-art.png";
-import projectSkyflyIntl from "@/assets/project-skyfly-intl.jpg";
-import projectIndiaSkyfly from "@/assets/project-india-skyfly.jpg";
 import bannerVsArt from "@/assets/banner-vs-art.png";
 import appHabitFlow from "@/assets/app-habit-flow.png";
 import logoArtika from "@/assets/logo-artika.png";
@@ -111,24 +109,6 @@ const projects: {
     image: projectVsArt,
     live: "https://rathiselva29.github.io/ratthika_vs_art_project/",
     tech: ["HTML", "CSS", "JavaScript"],
-    category: "Websites",
-  },
-  {
-    title: "Skyfly International",
-    description:
-      "Professional company website built for Skyfly International. Designed and developed for a client and successfully sold as a complete web solution.",
-    image: projectSkyflyIntl,
-    live: "https://www.skyflyintl.com",
-    tech: ["HTML", "CSS", "JavaScript"],
-    category: "Websites",
-  },
-  {
-    title: "Skyfly Global Journey",
-    description:
-      "A modern travel website built for Skyfly — elegant destination showcases, smooth section transitions and a fully responsive booking-style layout.",
-    image: projectIndiaSkyfly,
-    live: "https://travel-global-journey.lovable.app",
-    tech: ["React", "Tailwind CSS", "Responsive"],
     category: "Websites",
   },
   {
